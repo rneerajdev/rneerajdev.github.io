@@ -1,0 +1,126 @@
+<html>
+<head>
+<style>
+        table, th, td 
+        {
+            margin:10px 0;
+            border:solid 1px #333;
+            padding:2px 4px;
+            font:15px Verdana;
+        }
+        th {
+            font-weight:bold;
+        }
+		
+#loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  visibility:hidden;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+	table{
+    border-collapse: collapse !important;
+}	
+    </style>
+
+<script type="application/x-javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script type="application/x-javascript">
+
+ $(document).ready(function(){
+ debugger;
+      $("#Heading").text("Hello world! : Insert | Update | Delete Operations in GSheet");
+  });
+  var script_url = "https://script.google.com/macros/s/AKfycbwXTLhxxNoAfeq0lTqH6ohifn4v1FdZFwaA4vZOTIkLZWFvmtc/exec";
+  // Make an AJAX call to Google Script
+  function insert_value() {    
+	//$("#re").css("visibility","hidden");	
+	$('#mySpinner').addClass('spinner');
+	var id1=	$("#id").val();
+	var name= $("#name").val();
+	var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=insert";
+	var request = jQuery.ajax({
+      crossDomain: true,
+      url: url ,
+      method: "GET",
+      dataType: "jsonp",
+	  contentType:"application/json"
+    });
+	$("#re").css("visibility","visible");
+}
+
+  function update_value(){
+	$("#re").css("visibility","hidden");
+    var id1=	$("#id").val();
+	var name= $("#name").val();
+	var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=update";
+	var request = jQuery.ajax({
+      crossDomain: true,
+      url: url ,
+      method: "GET",
+      dataType: "jsonp",
+	  contentType:"application/json"
+    });
+	$("#re").css("visibility","visible");
+	}
+  
+  function delete_value(){
+	//$("#re").css("visibility","hidden");     
+	$('#mySpinner').addClass('spinner');
+	var id1=	$("#id").val();
+	var name= $("#name").val();
+	var url = script_url+"?callback=ctrlq&name="+name+"&id="+id1+"&action=delete";
+  
+    var request = jQuery.ajax({
+      crossDomain: true,
+      url: url ,
+      method: "GET",
+      dataType: "jsonp",
+	  contentType:"application/json"
+    });
+	$("#re").css("visibility","visible");
+	}
+  
+  // print the returned data
+  function ctrlq(e) {
+  	$("#re").html(e.result);
+	$("#re").css("visibility","visible");
+	read_value();
+	}
+   </script>  
+</head>
+<body>
+<div align="center">
+<h1 id="Heading"></h1>
+
+<form >
+ID
+<input type = "text" name ="id" id="id">
+Name
+<input type = "text" name ="name" id="name">
+</form>
+<p id="re"></p>
+<input type = "button"  id = "b1" onClick="insert_value()" value = "Insert"></input>
+<input type="button" onclick="update_value()" value="Update" />
+<input type="button" onclick="delete_value()" value="Delete" />
+</br>
+</br>
+<a href="https://docs.google.com/spreadsheets/d/1wJ54fyFPYbVZZVpu8L5EDq3I7fRQS0sOkX9DCarDMYI/edit?usp=sharing" target="_blank">Click here to open Google Spread Sheet to see changes... </a>
+<div id="showData"></div>
+</div>
+</body>
+<html>
